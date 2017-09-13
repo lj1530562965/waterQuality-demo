@@ -1,0 +1,237 @@
+{
+  "map": {
+    "crs": "EPSG3857",
+    "zoom": 8,
+    "center": [
+      25.142222000,
+      117.514444000
+    ],
+    "baseLayers": [
+      {
+        "id": "1",
+        "name": "gddt",
+        "label": "谷歌地形图",
+        "url": "https://mt{s}.google.cn/vt/lyrs=t@166,r@254000000&hl=zh-CN&gl=CN&src=app&x={x}&y={y}&z={z}",
+        "maxZoom": 18,
+        "minZoom": 3,
+        "subdomains": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "id": "2",
+        "name": "gddt",
+        "label": "高德地图",
+        "url": "http://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",
+        "maxZoom": 13,
+        "minZoom": 3,
+        "subdomains": [
+          "1",
+          "2",
+          "3"
+        ],
+        "append": {
+          "url": "http://wprd0{s}.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scl=2&style=8&ltype=11",
+          "subdomains": [
+            "1",
+            "2",
+            "3"
+          ],
+          "label": "高德地名"
+        }
+      },
+      {
+        "id": "3",
+        "name": "fjsly",
+        "label": "福建省流域图",
+        "url": "http://121.206.59.130:9082/api/v1/map/tile/arcgis?name=fj_map&x={x}&y={y}&z={z}",
+        "maxZoom": 13,
+        "minZoom": 3,
+        "subdomains": []
+      }
+    ],
+    "thematicLayers": [
+      {
+        "id": "102",
+        "name": "fjssst",
+        "label": "福建省水系图",
+        "url": "http://121.206.59.130:9082/api/v1/map/tile/arcgis?name=fjssxt&x={x}&y={y}&z={z}",
+        "maxZoom": 18,
+        "minZoom": 3,
+        "subdomains": [],
+        "checked": "true"
+      },
+      {
+        "id": "101",
+        "name": "gddt",
+        "label": "九龙江流域边界",
+        "url": "http://121.206.59.130:9082/api/v1/map/tile/arcgis?name=jljly&x={x}&y={y}&z={z}",
+        "maxZoom": 18,
+        "minZoom": 3,
+        "subdomains": [],
+        "checked": "true"
+      }
+    ],
+    "zoomControl": {
+      "enable": false,
+      "position": "bottomright"
+    },
+    "layersControl": {
+      "enable": true,
+      "position": "bottomleft"
+    },
+    "module": {
+      "waterQuality": {
+        "baseLayer": "3"
+      }
+    }
+  },
+  "api": {
+    "basicData": {
+      "name": "通用数据",
+      "url": "http://121.206.59.130:8077/api/v1/basic/data"
+    }
+  },
+  "interfaces_model": {
+    "waterQuality": {
+      "waterQuality": {
+        "description": "水质站点接口",
+        "models": [
+          {
+            "method": "basicData",
+            "params": {
+              "key": "select_water_quality_list",
+              "orderby": "sort"
+            }
+          }
+        ]
+      },
+      "details": {
+        "description": "水质过程线接口",
+        "models": [
+          {
+            "method": "basicData",
+            "params": {
+              "key": "select_water_quality_detail",
+              "orderby": "tm"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "module": {
+    "waterQuality": {
+      "defaultContent": "list",
+      "chartIntervalDay": -1,
+      "taskDelay": 300000,
+      "monitorItems": [
+        {
+          "name": "pH值",
+          "field": "ph",
+          "enable": true,
+          "showStand": "6-9",
+          "unit": "",
+          "min": 6,
+          "max": 9
+        },
+        {
+          "name": "溶解氧",
+          "field": "do",
+          "showStand": "5",
+          "enable": true,
+          "unit": "mg/L",
+          "range": {
+            "judge": ">=",
+            "sort": {
+              "Ⅰ": "7.5",
+              "Ⅱ": "6-7.5",
+              "Ⅲ": "5-6",
+              "Ⅳ": "3-5",
+              "Ⅴ": "2-3"
+            }
+          },
+          "min": 2,
+          "max": 7.5
+        },
+        {
+          "name": "氨氮",
+          "field": "nh3n",
+          "showStand": "1.0",
+          "unit": "mg/L",
+          "enable": true,
+          "range": {
+            "judge": "<=",
+            "sort": {
+              "Ⅰ": "0.15",
+              "Ⅱ": "0.15-0.5",
+              "Ⅲ": "0.5-1.0",
+              "Ⅳ": "1.0-1.5",
+              "Ⅴ": "1.5-2.0"
+            }
+          },
+          "min": 0.15,
+          "max": 2
+        },
+        {
+          "name": "总磷",
+          "field": "tp",
+          "showStand": "0.2",
+          "enable": true,
+          "unit": "mg/L",
+          "range": {
+            "judge": "<=",
+            "sort": {
+              "Ⅰ": "0.02",
+              "Ⅱ": "0.02-0.1",
+              "Ⅲ": "0.1-0.2",
+              "Ⅳ": "0.2-0.3",
+              "Ⅴ": "0.3-0.4"
+            }
+          },
+          "min": 0.02,
+          "max": 0.4
+        },
+        {
+          "name": "高锰酸盐",
+          "field": "codmn",
+          "showStand": "6",
+          "enable": true,
+          "unit": "mg/L",
+          "range": {
+            "judge": "<=",
+            "sort": {
+              "Ⅰ": "2",
+              "Ⅱ": "2-4",
+              "Ⅲ": "4-6",
+              "Ⅳ": "6-10",
+              "Ⅴ": "10-15"
+            }
+          },
+          "min": 2,
+          "max": 15
+        },
+        {
+          "name": "水温",
+          "field": "wt",
+          "enable": true,
+          "unit": "℃"
+        },
+        {
+          "name": "电导率",
+          "field": "cond",
+          "enable": true,
+          "unit": "μScrr"
+        },
+        {
+          "name": "浊度",
+          "field": "turb",
+          "enable": true,
+          "unit": "NTU"
+        }
+      ]
+    }
+  }
+}
